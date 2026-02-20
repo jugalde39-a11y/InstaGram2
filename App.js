@@ -1,76 +1,92 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
 export default function App() {
-  const [likes, setLikes] = useState(445);
-  const [isLiked, setIsLiked] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [views, setViews] = useState(0);
+  const [visto, setVisto] = useState(false);
 
-  const handleLike = () => {
-    if (isLiked) {
-      setLikes(likes - 1);
-      setIsLiked(false);
-    } else {
-      setLikes(likes + 1);
-      setIsLiked(true);
-    }
-  };
-
-  const handleSave = () => {
-    setSaved(!saved);
+  const verHistoria = () => {
+    setModalVisible(true);
+    setViews(views + 1);
+    setVisto(true);
   };
 
   return (
-    <View style={s.container}>
-      <StatusBar hidden />
-      <View style={s.header}><Text style={s.logo}>Instagram</Text></View>
-      <View style={s.stories}>
-        {[1, 2, 3, 4, 5].map(i => <View key={i} style={s.story} />)}
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.logo}>Instagram</Text>
+        <Ionicons name="heart-outline" size={24} />
       </View>
-      <View style={s.post}>
-        <View style={s.userRow}>
-          <View style={s.avatar} /><Text style={s.username}>jcuga</Text>
-        </View>
-        <Image style={s.image} source={require('./assets/post.png')} />
-        <View style={s.actions}>
-          <TouchableOpacity onPress={handleLike}>
-            <Ionicons name={isLiked ? "heart" : "heart-outline"} size={24} color={isLiked ? "#e31b23" : "black"} style={s.icon} />
+
+      {/* Historias */}
+      <View style={styles.storiesArea}>
+        <View style={styles.storyItem}>
+          <TouchableOpacity onPress={verHistoria} style={[styles.avatarBorder, { borderColor: visto ? 'gray' : '#e1306c' }]}>
+            <Image source={require('./assets/PFP.png')} style={styles.avatar} />
           </TouchableOpacity>
-          <Ionicons name="chatbubble-outline" size={24} color="black" style={s.icon} />
-          <Ionicons name="paper-plane-outline" size={24} color="black" />
-          <TouchableOpacity onPress={handleSave} style={{ marginLeft: 'auto' }}>
-            <Ionicons name={saved ? "bookmark" : "bookmark-outline"} size={24} color="black" />
-          </TouchableOpacity>
+          <Text style={{ fontSize: 12 }}>Tu historia</Text>
+          <Text style={{ fontSize: 10, color: visto ? 'gray' : 'red' }}>
+            {visto ? "Vista" : "Historia no vista"}
+          </Text>
         </View>
-        <Text style={s.caption}>
-          <Text style={s.bold}>Likes: {likes}</Text>
+      </View>
+
+      {/* Post */}
+      <View style={{ flex: 1 }}>
+        <View style={styles.postHeader}>
+          <Image style={styles.smallAvatar} source={require('./assets/MINI.png')} />
+          <Text style={{ fontWeight: 'bold' }}>buffalobills</Text>
+        </View>
+        <Image style={styles.postImage} source={require('./assets/post.png')} />
+        <View style={styles.actions}>
+          <Ionicons name="heart-outline" size={26} style={{ marginRight: 10 }} />
+          <Ionicons name="chatbubble-outline" size={26} />
+        </View>
+        <Text style={{ paddingHorizontal: 10 }}>
+          <Text style={{ fontWeight: 'bold' }}>buffalobills</Text> Go Bills! 🏈💙❤️
         </Text>
-        <Text style={s.caption}><Text style={s.bold}>jcuga</Text> Mi primer post!</Text>
       </View>
-      <View style={s.footer}>
-        <Ionicons name="home" size={28} color="black" />
-        <Ionicons name="search-outline" size={28} color="black" />
-        <Ionicons name="add-circle-outline" size={28} color="black" />
-        <Ionicons name="heart-outline" size={28} color="black" />
-        <Ionicons name="person-outline" size={28} co lor="black" />
-      </View>
+
+      {/* Storie */}
+      {modalVisible && (
+        <View style={styles.overlay}>
+          <View style={styles.topBar}>
+            <Image source={require('./assets/MINI.png')} style={styles.smallAvatar} />
+            <Text style={{ color: 'white', fontWeight: 'bold', marginLeft: 10 }}>buffalobills</Text>
+          </View>
+
+          <Image source={require('./assets/mvp.png')} style={styles.fullImage} />
+
+          <View style={styles.bottomBar}>
+            <Text style={{ color: 'white', fontSize: 20, marginBottom: 20 }}>👁 {views} visualizaciones</Text>
+            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.btnCerrar}>
+              <Text style={{ fontWeight: 'bold' }}>Cerrar historia</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
 
-const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff', paddingTop: 10 },
-  header: { height: 44, paddingLeft: 12, justifyContent: 'center' },
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#fff', paddingTop: 40 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', padding: 15, alignItems: 'center' },
   logo: { fontSize: 24, fontWeight: 'bold' },
-  stories: { flexDirection: 'row', padding: 10, borderBottomWidth: 0.5, borderColor: '#ccc' },
-  story: { width: 56, height: 56, borderRadius: 28, backgroundColor: '#ddd', marginRight: 12 },
-  userRow: { flexDirection: 'row', alignItems: 'center', padding: 8 },
-  avatar: { width: 32, height: 32, borderRadius: 16, backgroundColor: '#ccc', marginRight: 8 },
-  username: { fontWeight: '600' },
-  image: { width: '100%', height: 375, backgroundColor: '#eee' },
-  actions: { flexDirection: 'row', padding: 10, alignItems: 'center' },
-  icon: { marginRight: 15 },
-  caption: { paddingHorizontal: 10, paddingBottom: 10 },
-  bold: { fontWeight: 'bold' },
-  footer: { height: 50, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderTopWidth: 0.5, borderColor: '#ccc', position: 'absolute', bottom: 0, width: '100%', backgroundColor: '#fff' }
+  storiesArea: { padding: 10, borderBottomWidth: 1, borderColor: '#ddd', height: 110 },
+  storyItem: { alignItems: 'center', width: 80 },
+  avatarBorder: { padding: 3, borderWidth: 2, borderRadius: 50, marginBottom: 5 },
+  avatar: { width: 50, height: 50, borderRadius: 25 },
+  postHeader: { flexDirection: 'row', alignItems: 'center', padding: 10 },
+  smallAvatar: { width: 30, height: 30, borderRadius: 15, marginRight: 10, backgroundColor: '#ddd' },
+  postImage: { width: '100%', height: 300, backgroundColor: '#eee' },
+  actions: { flexDirection: 'row', padding: 10 },
+  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'black', zIndex: 10, justifyContent: 'space-between' },
+  topBar: { flexDirection: 'row', alignItems: 'center', padding: 20, marginTop: 20 },
+  fullImage: { width: '100%', height: '65%', resizeMode: 'cover' },
+  bottomBar: { alignItems: 'center', paddingBottom: 40 },
+  btnCerrar: { backgroundColor: 'white', padding: 10, borderRadius: 20, width: 150, alignItems: 'center' }
 });
