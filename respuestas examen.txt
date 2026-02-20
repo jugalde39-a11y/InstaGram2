@@ -1,0 +1,18 @@
+1.React native es un framework especializado para desarrollar apps móviles usando JavaScript y usa componentes que son nativos 
+hecho para ios y Android
+2.una app es un programa que es hecho para dispositivos móviles tales como smartphones,tablets y debe ser enfocado específicamente para ellos
+3.nativas:son hechas para un solo SO y tienen acceso a hardware lo que genera mejor rendimeinto
+hibridas:es lo que hacemos usamos de herramientas como HTML,css y javascript y permiten el desarrollo en distitos entornos,son mas faciles de mantener
+web:son sitios web que tienen optimizacion moviles y permiten su uso optimo en el navegador movil
+4.view:es el equivalente del div sirve paa agrupa y esructurar a los componentes
+text:es para mostrar texto todo lo que se quiera mostrar en texto debe estar entre estas etiquetas
+iamge:sirve par mostar imagenes ya esten en de manera local o por una url 
+textinput: deja ingresar texto al usuario se usa en formularios y busquedas
+5. useState permite añadir un estado a componentes que tengan funciones. Sirve para almacenar y actualizar  cuando cambian, obligan a la aplicación a actualizar nuevamente para mostrar la información nueva (Ejemplo los seguidres de insagramo los likes)
+6a) Porque permiten que la app sea reactiva e intutiva,hacen que la app se actualice automáticamente cuando algo cambia.
+
+b) ¿Qué pasaría si no tuviera estados?
+La app sería estática. No se podría interactuar con ella; al tocar botones o escribir no pasaría nada
+
+c) 
+Un carrito de ua tienda en linea, el estado guarda cuántos productos se han agregado y actualiza el precio cada ve que se suma un articulo.
